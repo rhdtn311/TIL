@@ -50,11 +50,11 @@ def sequential_search(n,target,array) :
 
 2.  그 다음 중간점과 찾으려는 데이터를 비교한다.
 
-   8과 4를 비교하여 중간점 8이 더 크므로 중간점 이후의 값은 확인할 필요가 없다.
+   &nbsp;8과 4를 비교하여 중간점 8이 더 크므로 중간점 이후의 값은 확인할 필요가 없다.
 
-   따라서 끝점을 [4]번째 인덱스에서 [3]번 째 인덱스로 바꾼다.
+ &nbsp;  따라서 끝점을 [4]번째 인덱스에서 [3]번 째 인덱스로 바꾼다.
 
-### 0  <span style="color:blue">2</span>  <span style="color:red">4</span>  6       ~~8  10  12  14  16  18~~
+### 0  <span style="color:blue">2</span>  <span style="color:red">4</span>  6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~~8  10  12  14  16  18~~
 
 3. 이제 시작점은 [0]번 인덱스, 끝점은 [3]번 인덱스가 되었다.
 
@@ -64,11 +64,11 @@ def sequential_search(n,target,array) :
 
    따라서 시작점을 [2]번 인덱스로 변경한다.
 
-### ### ~~0  2~~         <font color="red">4</font>  6        ~~8  10  12  14  16  18~~
+### ### ~~0  2~~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="red">4</font>  6 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~~8  10  12  14  16  18~~
 
 4. 시작점은 [2]번 인덱스인 4, 끝점은 [3]번 인덱스인 6이다. 이 때 중간점은 [2]번 인덱스인 4이다. 중간점에 위치한 데이터 4는 찾으려는 데이터 4와 동일하므로 이 시점에서 탐색을 종료한다.
 
-<br>
+</br>
 
 - 전체 데이터의 개수는 10개지만 이진 탐색을 이용하여 총 3번의 탐색으로 원소를 찾을 수 잇었다.
 - **시간 복잡도 : O(logN)**
@@ -89,7 +89,7 @@ def binary_search(array,target,start,end) :
         return binary_search(array,target,mid+1,end)
 ```
 
-​															재귀 함수를 이용한 방법
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;재귀 함수를 이용한 방법
 
 ```python
 def binary_search(array,target,start,end) : 
@@ -105,7 +105,8 @@ def binary_search(array,target,start,end) :
     return None
 ```
 
-​																반복문을 이용한 방법
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;반복문을 이용한 방법
+<br>
 
 - 코딩테스트에서의 이진탐색 문제는 **탐색 범위가 큰 상황**에서의 탐색을 가정하는 문제가 많다.
   - 따라서 탐색 범위가 2000만을 넘어가면 이진 탐색으로 접근
