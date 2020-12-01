@@ -356,3 +356,5 @@ NaN === NaN   >>> false
 
 NaN은 어느 것과도 같지 않다.
 
+
+참고 : https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps/Variables
