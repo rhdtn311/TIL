@@ -132,3 +132,7 @@ for (i = 0; i < 5; i++) {
 >>> 0124
 ```
 
+
+<br>
+<br>
+참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Loops_and_iteration#while_%EB%AC%B8
