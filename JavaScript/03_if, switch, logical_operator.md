@@ -196,3 +196,9 @@ switch (1) {
 }
 ```
 
+<br>
+<br>
+
+참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Control_flow_and_error_handling 
+참고 : inflearn 나도코딩 자바스크립트 언어 기본편 강의
+
