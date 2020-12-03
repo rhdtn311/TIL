@@ -191,3 +191,7 @@ num.reverse()
 document.write(num)    >>> [4,3,5,6,3,2]
 ```
 
+<br>
+<br>
+참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Indexed_collections <br>
+       inflearn 생활코딩 자바스크립트 기본
