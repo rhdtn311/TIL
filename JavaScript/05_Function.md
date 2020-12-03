@@ -89,3 +89,8 @@ ducument.write(cube);
 >>> [1,8,27,64,125]
 ```
 
+
+<br>
+
+참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
+      inflearn 생활코딩 자바스크립트 언어 기본편
