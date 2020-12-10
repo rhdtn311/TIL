@@ -254,3 +254,12 @@ console.log('abcda'.match(pattern));		>>> ['a']
 console.log('abcda'.match(useG));		>>> ['a','a']
 ```
 
+<br>
+<br>
+<br>
+정규표현식이 헷갈릴 때 직관적으로 참고할 수 있는 사이트 : https://regexr.com/
+<br>
+참고 :<br> 
+inflearn 생활코딩 javascript<br>
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+
