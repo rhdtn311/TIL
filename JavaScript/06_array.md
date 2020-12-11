@@ -177,7 +177,30 @@ str.sort();
 document.write(num)    >>> [1,10,11,2,20,3,4,5]
 document.write(str)    >>> ['A','C','D','E','b','z']
 ```
+sort함수는 인자로 함수를 받을 수 있는데 이 함수는 **콜백함수**라고 한다. **sort(compareFunction(a,b))** 는 다음과 같은 원리로 정률 순서가 결정된다.
 
+- *compareFunction(a,b) 의 값이 0보다 작은 경우 a가 b보다 먼저 정렬된다.*
+- *compareFunction(a,b) 의 값이 0이면 a와 b의 순서를 변경하지 않는다.*
+- *compareFunction(a,b) 의 값이 0보다 큰 경우 b가 a보다 먼저 정렬된다.*
+
+``` javascript
+var num = [5,4,2,1,3,10,20,11]
+
+function asc(a,b) {	// 오름차순
+    return a-b
+}
+
+function desc(a,b) {	// 내림차순
+    return b-a
+}
+
+num.sort(asc)	>>> [1,2,3,4,5,10,11,20]
+num.sort(desc)	>>> [20,11,10,5,4,3,2,1]
+```
+
+위 코드에서 함수 asc는 배열의 원소인 a에서 b를 뺀 후 그 값이 양수이면 b가 a 앞에 정렬될 것이고, 음수이면 a가 b 앞에 정렬될 것이다. 함수 desc에서는 배열의 원소인 b에서 a를 뺀 후 그 값이 양수이면 b가 a 앞에 정렬될 것이고, 음수이면 a가 b 앞에 정렬될 것이다.
+
+<br>
 <br>
 
 #### reverse
