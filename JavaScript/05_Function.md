@@ -148,5 +148,94 @@ a()  >>> ?
 
 <br>
 
+
+## *함수의 용도*
+
+#### 값으로서의 함수
+
+자바스크립트에서는 함수도 객체이다. 즉 값이다. 거의 모든 언어가 함수를 가지고 있다. 자바스크립트의 함수가 다른 언어의 함수와 다른 점은 함수가 값이 될 수 있다는 점이다.
+
+```javascript
+function a() {}    
+var a = function() {}  
+```
+
+위 두 표현은 같은 것이다. 즉 함수는 변수에 담겨져 값으로 표현된다.
+
+<br>
+
+```javascript
+a = {
+    b:function() {
+    }
+}
+```
+
+객체 안에서 키의 값으로 함수가 사용될 수 있는데 이 때는 **메소드**라고 불린다.	
+
+<br>
+
+``` javascript
+function cal(func,num) {
+    return func(num)
+}
+function increase(num) {
+    return num+1
+}
+function decrease(num) {
+    return num-1
+}
+alert(cal(increase,1))	>>> 2
+alert(cal(decrease,1))	>>> 0
+```
+
+함수는 다른 함수의 인자로 전달 될 수도 있다. 위 코드에서 cal이라는 함수의 첫 번째 파라미터로 함수를 받아 두 번째 파라미터를 그 함수의 인자로 받는데 사용된다.
+
+<br>
+
+```javascript
+function cal(mode) {
+    var funcs = {
+        'plus' : function(left, right) {return left + right}
+        'minus' : function(left, right) {return left - right}
+    }
+	return funcs[mode];
+}
+alert(cal('plus')(2,1));	>>> 3
+alert(cal('minus')(2,1));	>>>	1
+```
+
+함수는 다른 함수의 리턴 값으로 사용될 수 있다. cal('plus')(2,1) 를 호출하게 되면 우선 cal('plus')를 통해 funcs['plus'] 를 반환 하여 funcs['plus']의 값인 함수가 호출되고 (2,1)가 그 함수의 인자로 사용되어 3이라는 값을 반환하게된다.
+
+<br>
+
+```javascript
+var process = [
+    function(input) {return input + 9;},
+    function(input) {return input * input;},
+    function(input) {return input / 2;}    
+];
+var input = 1;
+for(var i = 0; i < process.length; i++) {
+    input = process[i](input);
+}
+alert(input)
+```
+
+함수는 배열의 값으로도 사용될 수 있다. 위 코드에서 process라는 배열 안에 함수들이 값으로 들어왔는데 코드를 실행해보면 결과 값으로 50이 잘 출력된다. 
+
+<br>
+
+이처럼 함수는 값으로서 변수, 매개변수, 리턴 값으로 사용될 수 있는데 이러한 용도로 사용될 수 있는 형태의 데이터를 프로그래밍에서는 **first-class citizen(object)** 라 부른다.
+
+<br>
+
+## *콜백*
+
+함수가 수신하는 인자가 함수인 경우를 콜백이라고 한다. 배열에서 배웠던 sort 함수의 인자가 대표적인 콜백함수이다. 비동기처리를 하는데 사용된다.
+
+[\>>>콜백 <<<](https://github.com/rhdtn311/TIL/blob/main/JavaScript/06_array.md)
+
+<br>
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
       inflearn 생활코딩 자바스크립트 언어 기본편
