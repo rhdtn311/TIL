@@ -89,6 +89,22 @@
    - heap에 삽입 : ![O(logN)](https://user-images.githubusercontent.com/68289543/101933493-a08a4100-3c1f-11eb-8a52-910af54dacd4.gif)
    - 길이가 n인 배열을  heap으로 생성 : ![O(nlogn)](https://user-images.githubusercontent.com/68289543/101933501-a1bb6e00-3c1f-11eb-8f33-20a0dd2103a6.gif)
    - 우선순위 최대인 값을 pop : ![O(logN)](https://user-images.githubusercontent.com/68289543/101933493-a08a4100-3c1f-11eb-8a52-910af54dacd4.gif)
+   
+   <br>
+
+#### 코딩테스트에서의 시간복잡도
+
+대부분의 환경에서 1억 번의 연산이 1초 정도 걸린다고 생각하면 된다.  따라서 최악의 경우 (가장 큰 범위를 입력하는 경우)  연산이 1억 이상 넘어가지 않도록 하는 시간복잡도를 갖는 알고리즘을 설계하면 된다.
+
+|     데이터 수     | 시간 복잡도 |
+| :---------------: | :---------: |
+| 100,000,000 (1억) |   n, logn   |
+| 1,000,000 (100만) |    nlogn    |
+|    10000 (1만)    |     n^2     |
+|        500        |     n^3     |
+|        20         |   n!, 2^n   |
+
+<br>
 
 <br>
 
@@ -99,3 +115,5 @@
 -  https://www.notion.so/a3ba1c7dd40b489ab7ea89dc3a18503a
 
   https://velog.io/@raram2/big-o-notation-and-time-complexity
+
+  이것이 코딩테스트다 with 파이썬 (나동빈)
