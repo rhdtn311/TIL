@@ -237,6 +237,7 @@ alert(input)
 [\>>>콜백 <<<](https://github.com/rhdtn311/TIL/blob/main/JavaScript/06_array.md)
 
 <br>
+
 ## *클로저 (closure)*
 클로저는 내부함수가 외부함수의 맥락에 접근할 수 있는 것을 가르킨다.
 
