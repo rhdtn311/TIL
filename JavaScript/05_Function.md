@@ -237,5 +237,31 @@ alert(input)
 [\>>>콜백 <<<](https://github.com/rhdtn311/TIL/blob/main/JavaScript/06_array.md)
 
 <br>
+## *클로저 (closure)*
+클로저는 내부함수가 외부함수의 맥락에 접근할 수 있는 것을 가르킨다.
+
+
+
+### 내부함수와 외부함수
+
+자바스크립트는 함수 안에서 또 다른 함수를 선언할 수 있다.
+
+```javascript
+function outter() {
+    var title = 'Hello World!'
+    function inner() {
+        alert(title);
+    }
+    inner();	>>> 'Helo World!'
+}
+outter();	>>> 'Hello World!''
+```
+
+위 코드에서 inner() 함수는 내부함수이고 outter() 함수는 외부함수이다.<br>
+
+위 코드에서 inner() 함수 내부에는 어떤 변수도 선언해주지 않았다. 하지만 외부함수에 선언된 title이라는 변수를 내부함수에서 호출했을 경우 정상적으로 호출이 된다. 즉, 내부함수는 외부함수의 지역변수에 접근할 수 있다.
+<br>
+<br>
+<br>
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
       inflearn 생활코딩 자바스크립트 언어 기본편
