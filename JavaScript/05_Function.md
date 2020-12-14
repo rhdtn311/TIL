@@ -262,6 +262,29 @@ outter();	>>> 'Hello World!''
 
 위 코드에서 inner() 함수 내부에는 어떤 변수도 선언해주지 않았다. 하지만 외부함수에 선언된 title이라는 변수를 내부함수에서 호출했을 경우 정상적으로 호출이 된다. 즉, 내부함수는 외부함수의 지역변수에 접근할 수 있다.
 <br>
+#### private variable
+
+```javascript
+function factory_movie(title) {
+    return {
+        get_title : function() {
+            return title;
+        },
+        set_title : function(_title) {
+            title = _title
+        }
+    }
+}
+totoro = factory_movie("Totoro");	
+
+totoro.get_title()	>>> "Totoro" // 외부함수의 매개변수를 참조
+totoro.set_title("이웃집 토토로");	// factory_movie("Totoro").set_title("이웃집 토토로")로 title이 "이웃집 토토로"가 됌 
+
+alert(totoro.get_title());	>>> 이웃집 토토로	
+```
+
+위 코드에서 title이라는 변수는 get_title() 메소드를 통해서만 호출될 수 있고 set_title() 메소드를 통해서만 값이 변경될 수 있다.  즉, 외부에서 값을 변경할 수 없다. 그렇기 때문에 private하다 할 수 있다. 
+<br>
 <br>
 <br>
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
