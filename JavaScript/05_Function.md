@@ -284,7 +284,42 @@ alert(totoro.get_title());	>>> 이웃집 토토로
 ```
 
 위 코드에서 title이라는 변수는 get_title() 메소드를 통해서만 호출될 수 있고 set_title() 메소드를 통해서만 값이 변경될 수 있다.  즉, 외부에서 값을 변경할 수 없다. 그렇기 때문에 private하다 할 수 있다. 
+
 <br>
+
+#### arguments
+
+areguments라는 객체는 함수 안에서 그 함수의 인자와 관련된 정보들을 담고 있는 객체인데, 배열은 아니지만 배열과 비슷하다.
+
+```javascript
+function sum() {
+    var _sum = 0;
+    for (var i = 0; i < arguments.length; i++) {	// arguments 객체를 사용하여 함수 호출 시 사용된 인자들의 데이터를 이용하여 .legnth(인자들의 길이) 값을 사용한다.
+        document.write(i + ':' + arguments[i] + '<br/>');	// arguments 객체를 사용하여 i번째 인자 값을 사용한다.
+        _sum += arguments[i];
+    }
+    return _sum;
+}
+document.write('result :' + sum(1,2,3,4));	
+```
+
+자바스크립트의 함수는 매우 관대하기 때문에 함수의 매개변수에 아무 값을 지정하지 않아도 그 함수 호출 시 인자를 받을 수 있고 매개변수와 인자의 수가 달라도 오류가 발생하지 않는다. 그렇기 때문에 위 예제에서 sum() 이라는 함수에는 아무 매개변수도 지정하지 않았지만 함수 호출 시 1,2,3,4를 인자로 받았는데 오류가 발생하지 않고 정상적으로 동작하였다. 이 때 사용할 수 있는 것이 **arguments 객체**이다. arguments 객체는 함수 호출 시 받은 인자에 대한 정보를 담고 있는 객체로 **.length 을 사용하여 인자의 개수**를 알 수 있고 **arguments[num]  을 이용하여 인자에 어떤 데이터가 들어왔는지** 알 수 있다.
+
+<br>
+
+```javascript
+function two(arg1, arg2) {
+    console.log(two.length);	// two.length는 two함수의 매개변수의 길이를 반환한다.
+    console.log(arguments.length);	// arguments.length는 two 함수 호출 시 인자의 길이를 반환한다.
+}
+
+two(1);
+
+>>> 2
+>>> 1
+```
+
+arguments 객체 사용 시 알아야될 점은 위 코드에서 처럼 two라는 함수가 주어지고 매개변수로 2개가 주어졌을 때, two.length의 값은 함수의 매개변수의 개수지만 arguments.legnth의 값은 앞에서 봤던 것처럼 함수 호출 시 인자의 개수이다.
 <br>
 <br>
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
