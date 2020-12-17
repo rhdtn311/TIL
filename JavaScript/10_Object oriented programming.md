@@ -220,7 +220,67 @@ func.apply(b);
 
 ## *상속*
 
-상속은 객체의 로직을 그대로 물려 받아 또 다른 객체를 만들 수 있는 기능을 의미한다. 덧붙혀 객체의 로직을 변형하여 새로운 객체를 만들 수 있다.
+상속은 객체의 로직을 그대로 물려 받아 또 다른 객체를 만들 수 있는 기능을 의미한다. 덧붙혀 객체의 로직을 변형하여 새로운 객체를 만들 수 있다.  상속은 prototype 객체를 이용하여 할 수 있다. prototype 객체는 함수 안에 존재하는 어떠한 객체인데, 이 곳에 원하는 값을 넣어 그 함수를 생성자로 다른 객체를 생성하면 prototype 안에 있는 값이 자동으로 상속된다.
+
+<br>
+
+prototype을 통해 속성에 접근할 때 다음과 같은 방식으로 접근한다.
+
+```javascript
+function A() {	// 객체 A에 v1과 v2라는 속성이 있음
+    this.v1 = 1;
+    this.v2 = 2;
+}
+
+var a = new A();	// A를 생성자로 하는 객체 a
+
+A.prototype.v2 = 3;
+A.prototype.v3 = 4;
+
+console.log(a.v1);
+console.log(a.v2);
+console.log(a.v3);
+console.log(a.v4);
+```
+
+- 우선 A 라는 객체를 만들었다. A 객체 안에는 v1 과 v2 속성이 있다.
+- 객체 a는 생성자 A를 통해 만들어졌다.
+- A에 prototype 함수를 이용하여 A의 prototype 객체에 v2와 v3 속성을 추가한다.
+  - 여기서 A.prototype = {v2 : 3, v3 :4}; 로 속성을 추가하지 않는다.
+  - 객체 a의 상위 프로토타입 객체에는 속성 'v2'와 'v3' 가 존재하고 그 상위 프로토타입 객체는 Object.prototype (최상위 프로토타입 객체) 이고 그 위는 null 이다.
+    - 따라서 가장 가까운 a객체의 속성인 {v1 : 1, v2 : 2} 를 탐색하고 원하는 값이 없다면 a객체의 상위 프로토타입의 값인 {v2 : 3, v3 : 4} 를 탐색하고 원하는 값이 없다면 Object.prototype을 탑색하고 마지막은 null 이므로 undefined를 반환한다.
+- a.v1은 객체 a는 스스로 v1이라는 속성을 가지므로 그 속성의 값인 1을 표시한다.
+- a.v2은 객체 a는 스스로 v2라는 속성을 가지므로 그 속성의 값인 2를 표시한다. 여기서, a의 상위 프로토타입 객체에도 v2라는 속성을 가지고 있지만 우선순위는 객체a가 스스로 가지고 있는 속성이 우선이므로 값 2를 표시한다.
+- a.v3은 객체 a는 스스로 v3라는 속성을 가지고 있지 않다. 그래서 a의 생성자의 프로토타입을 확인한다. v3 속성이 존재한다. 값은 4이다.
+- a.v4는 객체 a 스스로도 v4라는 속성을 가지고 있지 않고 a의 생성자의 프로토타입에도 v4가 없다. 최상위 프로토타입에도 없고 결과적으로 null 에 도달했다. 속성이 발견되지 않았으므로 undefined를 반환한다.
+
+<br>
+
+### *메소드 오버라이딩*
+
+상속을 통해 받은 로직에 원하는 기능을 더 추가하여 새로운 기능을 하는 객체를 생성
+
+```javascript
+function Person(name) {
+    this.name = name;
+}
+Person.prototype.name = null;
+Person.prototype.introduce = function(){
+    return 'My name is ' + this.name;
+}
+function Programmer(name) {
+    this.name = name;
+}
+Programmer.prototype = new Person();
+Programmer.prototype.coding = function() {
+    return "hello world";
+}
+var p1 = new Programmer('Kong');
+document.write(p1.introduce() + "<br />");
+document.write(p1.coding() + "<br />");
+```
+
+객체 p1은 Programmer 생성자로부터 생성된 객체이다. p1은 당연히 Programmer의 prototype에서 coding이라는 매소드를 수행할 수 있으며 Programmer의 상위 프로토타입인 Person으로부터 introduce 메소드도 수행할 수 있다. 여기서 Person으로부터 상속받은 Programmer의 prototype 객체에 coding이라는 메소드를 추가하여 새로운 기능을 구현하는 것을 메소드 오버라이딩 이라고 한다.
 
 
 
@@ -237,7 +297,7 @@ function Car() {
 var tico = new Car();
 var sonata = new Car();
 
-document.write(tico.wheel); >>> 4
+document.write(tico.wheel);	>>> 4
 document.write(tico.driver);	>>> 1
 
 document.write(sonata.wheel);	>>> 4
@@ -257,7 +317,7 @@ var sonata = new Car();
 document.write(tico.wheel);	>>> 4
 document.write(tico.driver);	>>> 1
 
-document.write(sonata.wheel);   >>> 4
+document.write(sonata.wheel);	>>> 4
 document.write(sonata.driver);	>>> 1
 ```
 
@@ -281,4 +341,104 @@ alert(a.value);
 
 위 코드를 보자. 우선 처음에 Large 라는 함수가 생성되었다. 그리고 Large의 프로토타입에 value라는 프로퍼티의 값을 10이라고 저장해두었다. 그리고 Medium의  프로토타입에 Large를 생성자로하는 객체를 저장하였고 Small도 Medium을 생성자로 하는 객체를 prototype에 저장하였다. 따라서 Small을 생성자로 하는 변수 a는 Small의 프로토타입 값을 받았으므로 a.value는 10을 반환하게 된다.
 
+<br>
 
+### *Prototype Object & Prototype Link*
+
+Prototype은 Prototype Object와 Prototype Link로 나누어져 있다. 
+
+
+
+#### Prototype Object
+
+자바스크립트에서 객체는 항상 함수를 통해 생성된다.
+
+```javascript
+function Car() {}	// 함수
+
+var a = new Car();	// 함수를 통해 객체 생성
+```
+
+우리가 객체를 생성할 때 자주 사용하는 방법 또한 함수를 통해 생성된 것이다.
+
+```javascript
+var a = {};
+var a = new Object(); 
+// 두 방법은 동일한 객체를 생성한다.
+```
+
+여기서 Object는 자바스크립트에서 기본적으로 생성하는 **함수**이다.
+
+<br>
+
+함수가 정의될 때, 두 가지 일이 일어난다. 
+
+1. ***함수에 생성자(Constructor) 자격 부여***
+
+생성자 자격이 부여되면 new를 이용하여 객체를 생성할 수 있게 된다.
+
+<br>
+
+2.  ***함수의 Prototype Object 생성 및 연결***
+
+함수가 생성되면 Prototype Object도 같이 생성된다. Prototype Object와는 prototype 속성을 통해 연결할 수 있다.
+
+```javascript
+function Car() {};
+
+Car.prototype;
+```
+
+![K-013](https://user-images.githubusercontent.com/68289543/102514409-c73cf180-40cf-11eb-856f-07acc55fef7c.png)
+
+Car 이라는 함수를 만들고 자동으로 생성된 Prototype Object를 확인하기 위해 prototype 속성을 이용하여 연결하면 위와 같다. Prototype Object는 constructor 과  \__proto__ 속성이 있다.
+
+```javascript
+function Car() {
+    Car.prototype.wheel = 4;
+    Car.prototype.driver = 1;
+}
+
+var tico = new Car();
+
+console.log(tico.constructure);
+```
+
+위 코드의 결과는 다음과 같다.
+
+ ![K-014](https://user-images.githubusercontent.com/68289543/102515313-f0aa4d00-40d0-11eb-9835-964034f89df8.png)
+
+Car 생성자로부터 생성된 객체 tico 의 constructure 속성 값은 그의 조상인 Car이다. 즉, **생성자를 나타내는 속성**이다.
+
+<br>
+
+#### Prototype Link
+
+여기서 Car를 통해 생성된 객체의 속성을 확인해보자.
+
+```javascript
+console.log(tico.wheel);
+console.log(tico);
+```
+
+![K-015](https://user-images.githubusercontent.com/68289543/102515791-847c1900-40d1-11eb-8b76-92791b969143.png)
+
+결과 값은 다음과 같다. 분명 객체 tico 에는 wheel 이라는 속성이 존재하지 않지만 tico.wheel을 통해 값을 불러내면 4라는 값이 참조된다.
+
+![K-017](https://user-images.githubusercontent.com/68289543/102516263-feac9d80-40d1-11eb-9343-3625391702a4.png)
+
+이것이 가능한 이유는 tico의 **\__proto__** 라는 속성 떄문이다. \__proto__ 속성은 모든 객체가 가지고 있는 속성으로 객체 생성 시 조상 함수의 Prototype Object를 가리킨다.
+
+![K-018](https://user-images.githubusercontent.com/68289543/102516557-55b27280-40d2-11eb-9aef-b7a40ddc5be9.png)
+
+여기서 tico 객체가 wheel 을 직접 가지고 있지 않기 때문에 wheel 속성을 찾을 때 까지 상위 프로토타입을 탐색하고, 최상위인 Object의 Prototype Object까지 도달했는데 찾지 못한다면 undefined를 리턴한다. 이처럼 상위 프로토타입과 연결되어 있는 형태를 prototype chain 이라고 한다.
+
+<br>
+
+<br>
+
+<br>
+
+참조 : inflearn 생활코딩 자바스크립트 언어 
+
+​	https://medium.com/@bluesh55/javascript-prototype-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-f8e67c286b67
