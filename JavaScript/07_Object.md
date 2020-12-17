@@ -54,7 +54,7 @@ objName["Hi my name is"] = "Taehyun";
 objName["One" + "Two"] = "OneTwo";
 
 var fruit = "apple";
-objName[fruit] = "delicious";    // objName이라는 객체에 fruit이라는 이름의 property가 생성
+objName[fruit] = "delicious";    // objName이라는 객체에 apple이라는 이름의 property가 생성
 ```
 
 for ... in 반복문과 함께 사용할 수 있다.
