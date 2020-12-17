@@ -267,17 +267,18 @@ document.write(sonata.driver);	>>> 1
 function Large() {}
 Large.prototype.value = 10;
 
-function Midium() {}
-Midium.prototype = new Large();
+function Medium() {}
+Medium.prototype = new Large();
 
 function Small() {}
-Small.prototype = new Midium();
+Small.prototype = new Medium();
 
 var a = new Small();
 alert(a.value);
 
 >>> 10
 ```
-위 코드를 보자. 우선 처음에 Large 라는 함수가 생성되었다. 그리고 Large의 프로토타입에 value라는 프로퍼티의 값을 10이라고 저장해두었다. 그리고 Midium의  프로토타입에 Large를 생성자로하는 객체를 저장하였고 Small도 Midium을 생성자로 하는 객체를 prototype에 저장하였다. 따라서 Small을 생성자로 하는 변수 a는 Small의 프로토타입 값을 받았으므로 a.value는 10을 반환하게 된다.
+
+위 코드를 보자. 우선 처음에 Large 라는 함수가 생성되었다. 그리고 Large의 프로토타입에 value라는 프로퍼티의 값을 10이라고 저장해두었다. 그리고 Medium의  프로토타입에 Large를 생성자로하는 객체를 저장하였고 Small도 Medium을 생성자로 하는 객체를 prototype에 저장하였다. 따라서 Small을 생성자로 하는 변수 a는 Small의 프로토타입 값을 받았으므로 a.value는 10을 반환하게 된다.
 
 
