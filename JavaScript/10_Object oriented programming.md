@@ -435,6 +435,19 @@ console.log(tico);
 
 <br>
 
+** 표준 내장 객체
+표준 내장 객체는 자바스크립트가 기본적으로 가지고있는 객체들을 의미한다. 즉 기본적으로 프로그래밍 하는 데 필요한 것들이다.
+- Object
+- Function
+- Array
+- String
+- Boolean
+- Number
+- Math
+- Date
+- RegExp
+
+
 <br>
 
 <br>
