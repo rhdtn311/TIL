@@ -447,6 +447,26 @@ console.log(tico);
 - Date
 - RegExp
 
+<br>
+
+#### prototype을 이용한 배열의 확장
+
+prototype의 성질을 이용하여 객체를 확장할 수 있다. 그 예로 배열 내 특정 원소를 반환하는 새로운 배열을 만들어보자.
+
+```javascript
+Array.prototype.rand = function() {
+    var index = Math.floor(this.length*Math.random());
+    return this[index];
+}
+var arr = new Array('A','B','C','D','E');
+alert(arr.rand())
+```
+
+Array라는 배열을 만들기위한 생성자 함수의 prototype 객체에 rand 라고 하는 우리가 원하는 기능을 수행하기 위한 메소드를 생성한다.  index 라는 변수를 생성하고 Math.random() 메소드를 통해 0~1까지의 랜덤한 수를 반환하게 하고 거기에 this.length 를 곱하여 0\~배열의 수 만큼 랜덤한 수를 반환하게 한다. 이 수를 Math.floor 메소드를 이용하여 소수점들을 버린다. 결과적으로 index에는 0번 배열부터 배열길이 -1 만큼의 랜덤한 정수가 담기게된다. 그리고 그 rand 라는 메소드는 Array라는 배열을 생성하는 생성자의 prototype 객체에 만들어진다.
+
+arr이라는 새로운 배열을 생성하고 arr은 생성자 Array를 통해 생성되었으므로 Array의 prototype에 있는 메소드를 사용할 수 있다.  그리고 우리가 정의한 rand라는 메소드를 실행하여 모든 배열에 새로운 기능을 수행할 수 있게 된다.
+
+
 
 <br>
 
