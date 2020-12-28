@@ -134,4 +134,7 @@ print(factorial_recursive(5)) >>> 120
 <br>
 <br>
 <br>
+
+___
+
 참고 : 이것이 코딩테스트다. with 파이썬 ( 나동빈 )
