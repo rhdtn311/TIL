@@ -90,6 +90,66 @@ ducument.write(cube);
 ```
 <br>
 
+## *Arrow Function*
+
+함수 선언을 보다 간단하게 해주는 함수
+
+``` javascript
+const simpleFunction = function() {
+    console.log("It's not simple")
+}
+
+simpleFunction()	>>> "It's not simple"
+```
+
+위 함수를 다음과 같이 간단하게 나타낼 수 있다.
+
+```javascript
+const simpleFunction = () => console.log("It's simple");
+
+simpleFunction()	>>> "It's simple"
+```
+
+파라미터를 갖는 함수는 다음과 같이 간단히 할 수 있다.
+
+```javascript
+const add = function(a,b) {
+    return a+b
+}
+
+// Arruw Function
+const simpleAdd = (a,b) => a+b;
+```
+
+만약 함수 안 내용이 커져서 블럭을 사용하게 된다면 return을 넣어줘야한다.
+
+```javascript
+const addMore = (a,b) => {
+    // do somthing more
+    return a+b;
+}
+```
+
+<br>
+
+## *IIFE(Immediately Invoked Function Expression)*
+
+함수를 선언과 동시에 호출하는 것
+
+```javascript
+// 일반적인 함수 선언과 호출
+function name() {
+    console.log("my name is Kong");
+}
+
+// IIFE
+(function name() {
+    console.log("my name is Kong")
+})();
+```
+
+<br>
+
 
 ## *전역변수와 지역변수*
 
@@ -322,5 +382,8 @@ two(1);
 arguments 객체 사용 시 알아야될 점은 위 코드에서 처럼 two라는 함수가 주어지고 매개변수로 2개가 주어졌을 때, two.length의 값은 함수의 매개변수의 개수지만 arguments.legnth의 값은 앞에서 봤던 것처럼 함수 호출 시 인자의 개수이다.
 <br>
 <br>
+___
+
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/%ED%95%A8%EC%88%98 <br>
-      inflearn 생활코딩 자바스크립트 언어 기본편
+      inflearn 생활코딩 자바스크립트 언어 기본편<br>
+      Youtube 드림코딩 엘리 [https://www.youtube.com/watch?v=e_lU39U-5bQ&ab_channel=%EB%93%9C%EB%A6%BC%EC%BD%94%EB%94%A9by%EC%97%98%EB%A6%AC]
