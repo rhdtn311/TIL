@@ -65,6 +65,40 @@ music    >>> ['classic', 'newage']
 
 <br>
 
+## *배열 요소 검색*
+
+**indexOf, lastIndexOf**
+
+원하는 데이터의 인덱스를 검색한다.
+
+- indexOf : 원하는 데이터의 첫 번째 인덱스를 검색한다.
+- lastIndexOf : 원하는 데이터의 마지막 인덱스를 검색한다.
+
+```javascript
+array = ["닭", "토끼", "뱀", "호랑이","닭"]
+
+console.log(array.indexOf("닭"));	>>> 0 
+console.log(array.indexOf("강아지"));	>>> -1
+console.log(array.lastIndexOf("닭"));	>>> 4
+```
+
+찾는 데이터가 배열 안에 없으면 -1을 출력한다.
+
+<br>
+
+**includes**
+
+원하는 데이터가 배열 안에 포함 되어 있는지 검색하여 있으면 true, 없으면 false를 반환한다.
+
+```javascript
+array = ["닭", "토끼", "뱀", "호랑이"]
+
+console.log(array.includes("닭"));	>>> true
+console.log(array.includes("강아지"));	>>> false
+```
+
+<br>
+
 ## *배열 요소 추가*
 
 #### push
@@ -96,7 +130,7 @@ document.write(new_music) >>> ['classic', 'newage', 'hiphop', 'pop', 'r&b']
 
 #### unshift
 
-unshift() 메서드는 배열의 앞에 새로운 요소를 추가하고 추가된 요소를 포함하여 반환한다.
+unshift() 메서드는 배열의 앞에 새로운 요소를 추가하고 추가된 요소를 포함하여 반환한다. unshift는 배열 내 데이터들을 반복하여 이동시켜야 하기때문에 push보다 훨씬 느리다. 
 
 ```javascript
 var music = ['classic', 'newage', 'hiphop']
@@ -124,7 +158,7 @@ document.write(music);    >>> ['classic', 'newage']
 
 #### shift
 
-shift() 메서드는 배열의 첫 번째 요소를 제거하고 제거된 요소를 반환한다.
+shift() 메서드는 배열의 첫 번째 요소를 제거하고 제거된 요소를 반환한다. shift는 배열 내 데이터들을 모두 하나씩 움직여야 하기 때문에 pop보다 훨씬 느리다.
 
 ```javascript
 var music = ['classic', 'newage', 'hiphop']
@@ -158,6 +192,66 @@ var new_music = music.slice(1,3);
 
 document.write(music)      >>> ['classic','newage', 'hiphop']
 document.write(new_music)  >>> ['newage','hiphop']
+```
+
+<br>
+
+## *배열 요소를 하나씩 출력*
+
+배열 내의 요소들을 하나씩 출력하는 방법에는 여러가지가 있다.
+
+```javascript
+array = [1,2,3]
+
+// 기본적인 for문
+for (let i = 0; i < array.length; i++) {
+    console.log(array[i]);
+}
+>>> 1
+	2
+	3
+
+// for of
+for (let i of array) {
+    console.log(i);
+}
+>>> 1
+	2
+	3
+```
+
+for문과 for of를 이용하는 방법 외에 forEach 함수를 이용하는 방법도 있다. forEach함수는 인자로 콜백함수를 받는데 그 콜백함수의 파라미터로 (요소,  인덱스, 배열전체) 를 받는다.
+
+```javascript
+array = ["닭","토끼","뱀"]
+
+// for Each 
+array.forEach(function (value, index, array) {
+    console.log(value);
+})
+>>> 닭
+	토끼
+    뱀
+
+array.forEach(function (value, index, array) {
+    console.log(index);
+})              
+>>>	0
+	1
+	2
+              
+array.forEach(function (value, index, array) {
+    console.log(array);
+})
+>>> ["닭","토끼","뱀"]
+	["닭","토끼","뱀"]
+	["닭","토끼","뱀"]
+
+// for Each를 Arrow Function으로 표현
+array.forEach((value) => console.log(value));
+>>>	닭
+	토끼
+    뱀
 ```
 
 <br>
@@ -216,5 +310,8 @@ document.write(num)    >>> [4,3,5,6,3,2]
 
 <br>
 <br>
+
+___
+
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Indexed_collections <br>
        inflearn 생활코딩 자바스크립트 기본
