@@ -311,6 +311,58 @@ document.write(num)    >>> [4,3,5,6,3,2]
 <br>
 <br>
 
+### *배열에 관한 유용한 APIs*
+
+#### join
+
+배열에 있는 모든 요소들을 더해서 string으로 출력해준다.
+
+```javascript
+const food = ['김밥', '떡볶이', '피자'];
+
+const join_food = food.join();
+console.log(join_food);	>>> "김밥,떡볶이,피자"
+
+// 파라미터로 구분자를 전달할 수 있다.
+const sepjoin_food = food.join('and');
+console.log(sepjoin_food);	>>> "김밥and떡볶이and피자"
+```
+
+<br>
+
+#### split
+
+첫 번째 인자로 받은 구분자로 나누어 문자열을 배열로 바꾸어준다.
+
+```javascript
+const food = '김밥,떡볶이,피자';
+
+const split_food = food.split(',');
+console.log(split_food)	>>> ['김밥', '떡볶이', '피자']
+
+// 두 번째 인자로 한계치를 정할 수 있다.
+const limitsplit_food = food.split(',',2);
+console.log(limitsplit_food);	>>> ['김밥','떡볶이']
+```
+
+<br>
+
+#### reverse
+
+배열 내 요소들을 거꾸로 뒤집는다.
+
+```javascript
+const num = [1,2,3,4,5];
+
+const reverse_num = num.reverse();
+console.log(reverse_num);	>>> [5,4,3,2,1]
+
+// reverse는 기존 배열 자체를 변화시킨다.
+console.log(num);	>>> [5,4,3,2,1]
+```
+
+<br>
+
 ___
 
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Indexed_collections <br>
