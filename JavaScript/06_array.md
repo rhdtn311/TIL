@@ -434,7 +434,7 @@ console.log(some_num)	>>> false
 
 #### every
 
-배열의 요소 중 every의 첫 번째 인자로 사용되는 콜백함수의 리턴 값이 모든 요소들이 true가 되는지 확인해준다.
+배열의 요소 중 every의 첫 번째 인자로 사용되는 콜백함수의 리턴 값에 대하여 모든 요소들이 true가 되는지 확인해준다.
 
 ```javascript
 const num = [5,6,7,8,9];
@@ -474,4 +474,7 @@ console.log(sub_num);	>>> 0
 ___
 
 참고 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Indexed_collections <br>
-       inflearn 생활코딩 자바스크립트 기본
+       inflearn 생활코딩 자바스크립트 기본<br>
+       [드림 코딩](https://www.youtube.com/watch?v=3CUjtKJ7PJg&t=1838s&ab_channel=%EB%93%9C%EB%A6%BC%EC%BD%94%EB%94%A9by%EC%97%98%EB%A6%AC)
+
+
