@@ -230,7 +230,7 @@ array.forEach(function (value, index, array) {
     console.log(value);
 })
 >>> 닭
-	토끼
+    토끼
     뱀
 
 array.forEach(function (value, index, array) {
@@ -244,14 +244,14 @@ array.forEach(function (value, index, array) {
     console.log(array);
 })
 >>> ["닭","토끼","뱀"]
-	["닭","토끼","뱀"]
-	["닭","토끼","뱀"]
+    ["닭","토끼","뱀"]
+    ["닭","토끼","뱀"]
 
 // for Each를 Arrow Function으로 표현
 array.forEach((value) => console.log(value));
 >>>	닭
 	토끼
-    뱀
+    	뱀
 ```
 
 <br>
@@ -360,6 +360,114 @@ console.log(reverse_num);	>>> [5,4,3,2,1]
 // reverse는 기존 배열 자체를 변화시킨다.
 console.log(num);	>>> [5,4,3,2,1]
 ```
+
+<br>
+
+#### find
+
+인자로 전달된 콜백 함수가 true인 배열의 **첫 번째 원소**를 반환한다. 콜백함수의 파라미터로 (요소, 인덱스, 배열) 을 받는다.
+
+```javascript
+const num = [1,10,30,50,99]
+
+const find_num = num.find(function(value) {return value > 50});
+console.log(find_num)	>>> 99
+
+const wrongFind_num = num.find((value) => value > 100);	
+console.log(wrongFind_num)	>>> undefined
+```
+
+<br>
+
+#### filter
+
+인자로 전달된 콜백 함수가 true인 **모든 원소**를 배열로 반환한다. 콜백함수의 파라미터로 (요소, 인덱스, 배열)을 받는다.
+
+```javascript
+const num = [10,20,30,44,89,90,100];
+
+const filter_num = num.filter((value) => value > 50);
+console.log(filter_num);	>>> [89, 90, 100]
+```
+
+<br>
+
+#### map
+
+배열 안에 들어있는 요소들을 각각 콜백함수의 return값 따라 변환하고 변환된 값으로 이루어진 새로운 배열을 반환해준다.
+
+```javascript
+const num = [1,2,3,4,5,10];
+
+let map_num = num.map((value) => value + 1);
+console.log(map_num);	>>> [2,3,4,5,6,11]
+console.log(num);	>>> [1,2,3,4,5,10]
+
+let map_num = num.map((value) => {
+    if (value % 2 === 0) {
+        return '짝수';
+    }
+    else {
+        return '홀수';
+    }
+});
+console.log(map_num);	>>> ["홀수", "짝수", "홀수", "짝수", "홀수", "짝수"]
+```
+
+<br>
+
+#### some
+
+배열의 요소 중에서 some의 첫 번째 인자로 사용되는 콜백함수의 리턴 값이 true가 되는 요소가 있는지 확인해준다.
+
+```javascript
+const num = [1,2,3,4,5,10];
+
+let some_num = num.some((value) => value > 9);
+console.log(some_num);	>>> true
+
+let some_num = num.some((value) => value > 10);
+console.log(some_num)	>>> false
+```
+
+<br>
+
+#### every
+
+배열의 요소 중 every의 첫 번째 인자로 사용되는 콜백함수의 리턴 값이 모든 요소들이 true가 되는지 확인해준다.
+
+```javascript
+const num = [5,6,7,8,9];
+
+let every_num = num.every((value) => value > 4);
+console.log(every_num);	>>> true
+
+let every_num = num.every((value) => value > 5);
+console.log(every_num);	>>> false
+```
+
+<br>
+
+#### reduce
+
+모든 배열을 순회하며 요소들을 return 값을 기준으로 누적시킨다. reduce는 다음과 같은 형태를 띈다.
+
+배열.reduce((누적값, 현재값, 인덱스, 요소) => {return 결과값}, 초기값);
+
+```javascript
+const num = [1,2,3,4,5];
+
+// prev는 누적 값, curr은 현재 배열의 요소이다.
+// 여기서 초기 값은 0번 인덱스 값인 1이고, 
+let sum_num = num.reduce((prev,curr) => prev + curr);
+console.log(sum_num);	>>> 15
+
+// 여기서 ,5는 초기값이다. 초기 값으로부터 시작하여 0번째 인덱스부터 값을 빼주며 누적시킨다.
+let sub_num = num.reduce((prev,curr) => prev - curr,15);
+console.log(sub_num);	>>> 0
+```
+
+**reduceRight**은 배열의 뒤부터 순회를 시작한다.
 
 <br>
 
