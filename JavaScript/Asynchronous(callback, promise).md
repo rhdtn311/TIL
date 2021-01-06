@@ -281,6 +281,164 @@ promise
 
 <br>
 
+## *async, await*
+
+### async
+
+콜백함수와 Promise의 단점 보완 및 코드를 더 간결하게 하기 위해 등장하였다. async는 다음과 같이 함수 앞에 async를 붙여서 표현하며 return 값으로 Promise를 반환한다. 원시값을 반환한다면 `Promise.resolve`로 래핑되어 반환되고, 함수 내에서 에러가 발생한다면 `Promise.reject()`로 래핑되어 반환된다.
+
+```javascript
+var promise = async function() {
+    return 10;
+}
+console.log(promise())
+>>> Promise {<fulfilled>: 10}
+
+var promise = async function() {
+    throw new Error('error');
+    return 10;
+}
+console.log(promise())
+>>> Promise {<rejected>: Error: error ... }
+```
+
+`async function`을 `Promise`로 변환하면 다음과 같이 표현할 수 있다.
+
+```javascript
+async function AsyncFunction() {
+    return console.log("async");
+}
+
+function PromiseFunction() {
+    return new Promise((resolve, reject) => {
+        return resolve("promise");
+    })
+}
+
+AsyncFucntion().then((rsv) => console.log(rsv));
+>>> async
+PromiseFunction().then((rsv) => console.log(rsv));
+>>> promise
+```
+
+<br>
+
+### await
+
+async function 내부에서만 사용할 수 있는 연산자로 `await`은 반환된 Promise가 **resolve 상태가 될 때 까지 대기**하며 Promise의 resolve 값이 반환된다. 즉, `await`을 사용하면 비동기 처리 처럼 실행되는 동안 다음 라인으로 넘어가는 것이 아니라, 실행이 완료될 때 까지 대기한다.
+
+```javascript
+async function f() {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("완료"),2000)
+    });
+
+    let result = promise.then((value) => console.log(value));
+    console.log(result);
+    console.log("Hi!");
+}
+
+f();
+>>> Hi! 
+    완료
+```
+
+위 예제는 `await`을 사용하기 위해 async function을 만들고 그 안에 비동기 처리를 할 수 있는 `Promise` 객체를 만들고 promise 변수에 할당하였다. 그리고 result에 promise로부터 받은 결과값을 할당하고 result 먼저 출력하고 그 다음 "Hi" 라는 문자열을 출력하였다. 결과는 비동기 처리로 인해 Hi, 완료 순으로 출력되었다. 그럼 다음 예제를 보자
+
+```javascript
+async function f() {
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve("완료"),2000)
+    });
+
+    let result = await promise;
+    console.log(result);
+    console.log("Hi!");
+}
+
+f();
+>>> 완료
+	Hi!
+```
+
+이번엔 `then` 대신 `await` 을 사용하였다. `then`을 사용하여 값을 받아왔을 때는 비동기 처리로인해 "Hi" 가 먼저 출력되었지만 `await`은 프로미스가 처리될 때 까지 함수 실행을 기다리게 하기 때문에 "완료" 라는 `resolve` 값을 받을 때까지 대기하였다. 따라서 ""완료""가 먼저 출력되고 "Hi!"가 그 다음에 출력되었다. 
+
+<br>
+
+#### await의 병렬처리
+
+```javascript
+// (ms / 1000)초 후에 Promise를 생성하는 함수
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 1초 후에 resolve 값으로 apple을 반환하는 async 함수
+async function getApple() {
+    await delay(1000);
+    return 'apple';
+}
+
+// 1초 후에 resolve 값으로 banana를 반환하는 async 함수
+async function getBanana() {
+    await delay(1000);
+    return 'banana';
+}
+
+// 함수가 실행되고 getApple() 함수가 끝나면 getBanana() 함수가 실행되고 그것마저 끝나면 resolve 값으로 apple + banana를 반환하는 async 함수
+async function pickFruits() {
+        const apple = await getApple();	// apple에는 getApple() 함수의 반환 값인 resolve값이 할당
+        const banana = await getBanana(); // banana에는 getBanana() 함수의 반환 값인 resolve값이 할당
+    return `${apple} + ${banana}`;
+}
+
+pickFruits().then(console.log);	>>> apple + banana // 총 2초 소요
+```
+
+위 예제에서 `getApple()` 함수와 `getBanana()` 함수는 서로 연관되어 있지 않은 함수인데도 불구하고 불필요하게 시간을 낭비하고있다. 이러한 단점을 보완하기 위해 `await` 을 병렬적으로 사용하는 것이 가능하다.
+
+```javascript
+async function pickFruits() {
+    // Promise 객체가 동시에 생성됌
+    const applePromise = getApple();
+    const bananaPromise = getBanana();
+    
+    // 동시에 생성된 Promise 객체가 resolve를 반환할 때 까지 await
+    const apple = await applePromise;
+    const banana = await bananaPromise;
+    
+    return `${apple} + ${banana}`
+}
+
+pickFruit().then(console.log);	>>> apple + banana // 총 1초 소요
+```
+
+위와 같은 병렬 처리 방식은 Promise의 API를 이용하여 간단하게 할 수 있다.
+
+<br>
+
+#### all
+
+프로미스 배열을 전달하게 되면 모든 프로미스들이 병렬적으로 다 받을 때 까지 모아준다.
+
+```javascript
+function pickAllFruits() {
+    return Promise.all([getApple(), getBanana()]);
+}
+pickAllFruits().then(console.log); >>> ["apple", "banana"]
+
+// 따라서 위에 병렬처리 방식을 사용한 예제를 다음과 같이 표현할 수 있다.
+function pickAllFruits() {
+    return Promise.all([getApple(), getBanana()])
+    .then(fruits => fruits.join(' + '));
+}
+pickAllFruits().then(console.log);	>>> apple + banana
+```
+
+
+
+<br>
+
 <br>
 
 ___
@@ -289,6 +447,14 @@ ___
 
 https://joshua1988.github.io/web-development/javascript/promise-for-beginners/ <br>
 
-https://velog.io/@cyranocoding/2019-08-02-1808-%EC%9E%91%EC%84%B1%EB%90%A8-5hjytwqpqj
+https://velog.io/@cyranocoding/2019-08-02-1808-%EC%9E%91%EC%84%B1%EB%90%A8-5hjytwqpqj<br>
+
+https://pks2974.medium.com/javascript-%EC%99%80-async-await-111fdad3c20d<br>
+
+https://ko.javascript.info/async-await
+
+<br>
+
+<br>
 
 
