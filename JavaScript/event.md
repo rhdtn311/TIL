@@ -55,6 +55,33 @@
 
 <br>
 
+### Event.target
+
+event interface의 `target` 속성은 event가 발생한 객체 요소를 지정한다.
+
+```html
+<body>
+        <button class="one"> 버튼1 </button>
+        <button class="two"> 버튼2 </button>
+    <script>
+        const btn1 = document.querySelector('.one');
+        const btn2 = document.querySelector('.two');
+
+        btn1.addEventListener('click',checkTarget);
+        btn2.addEventListener('click',checkTarget);
+
+        function checkTarget(event) {
+            console.log(event.target);
+        }
+    </script>
+</body>
+
+// 버튼1 클릭 : <button class="one"> 버튼1 </button>
+// 버튼2 클릭 : <button class="two"> 버튼2 </button>
+```
+
+<br>
+
 <br>
 
 ___
@@ -63,3 +90,4 @@ ___
 
 http://www.tcpschool.com/javascript/js_event_eventListenerRegister
 
+https://developer.mozilla.org/ko/docs/Web/API/Event/target
