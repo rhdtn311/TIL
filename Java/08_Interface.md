@@ -334,6 +334,295 @@ public class Example {
 
 `MakeChampion` 타입의 변수 `champion`에 `MakeChampion` 클래스를 참조하는 객체를 대입하였다. `MakeChampion` 객체는 필드 값으로 `Ezreal` 객체를 갖고있고,  `useSkill()` 메소드를 호출하면 `Ezreal`의 `ultSkill()`의 값이 리턴되고, `champion`의 `currentChampion` 필드를 `Jhin` 객체로 바꾸면 `Jhin` 의 `ultSkill()` 의 값이 리턴되어 `useSkill()` 메소드를 변경할 필요 없이 필드 값을 바꿈으로써 다양한 실행 결과를 얻을 수 있게된다.
 
+<br>
+
+### 인터페이스 배열로 구현 객체 관리
+
+이전 예제에서 만약 `MakeChampion` 클래스에서 여러 인터페이스 객체를 필드값으로 갖는다면 다음과 같이 배열로 나타낼 수 있다.
+
+```java
+public class MakeChampion {
+    Champion champions[] = {	// 필드를 배열로 선언
+        new Ezreal(),
+        new Jhin()
+    };
+    
+    public void useSkill() {
+        for (Champion champ : champions) {
+            System.out.println(champ.ultSkill() + " 스킬을 사용합니다.");
+        }
+    }
+}
+```
+
+<br>
+
+### 매개 변수의 다형성
+
+매개값을 다양하게 하기 위해서 매개 변수를 인터페이스 타입으로 선언하고 구현객체로 호출한다.
+
+```java
+public class Program {
+    public void occurError(Machine muchine) {	// Machine는 인터페이스
+        machine.format();	
+    }
+}
+```
+
+`Program` 클래스 안에 `occurError` 라는 메소드가 정의되어 있는데, 그 메소드의 매개값은 `Machine` 타입이고, `Machine`은 인터페이스이다.
+
+```java
+public interface Machine {
+    public void format();
+}
+```
+
+그리고 `Computer`가 `Machine`의 구현 클래스라면 `Computer` 의 객체가 `occurError`의 매개값으로 사용될 수 있다. 
+
+```java
+public class Computer implements Machine {
+	public void format() {
+        System.out.println("컴퓨터를 포멧합니다.");
+    }
+}
+```
+
+```java
+public class Mobile implements Machine {
+    public void format() {
+        System.out.println("스마트폰을 포멧합니다.");
+    }
+}
+```
+
+이제 매개변수의 다형성을 이용하여 `Program` 의 `occurError` 메소드를 다양하게 호출할 수 있다.
+
+```java
+public class Example {
+    public static void main(String[] args) {
+        Program program = new Program();
+   	    Computer computer = new Computer();
+        
+        program.occurError(computer);	// "컴퓨터를 포멧합니다."
+        // Mobile mobile = new Mobile(); 이기 때문에 대체 가능
+        program.occurError(new Mobile());	// "스마트폰을 포멧합니다."
+    }
+}
+```
+
+<br>
+
+### 강제 타입 변환
+
+구현 객체가 인터페이스 타입으로 자동 변환하면, 인터페이스에 선언된 메소드만 사용 가능하다.  하지만 구현클래스에만 선언된 멤버를 사용해야 할 경우 **강제 타입 변환** 을 해서 구현 클래스의 필드와 메소드를 사용할 수 있다.
+
+```java
+구현클래스 변수 = (구현클래스) 인터페이스 변수;
+```
+
+```java
+public interface Machine {
+    public abstract void occurError();
+}
+
+public class Computer implements Machine {
+    public void occurError() { ... }; 
+    public void turnOn() { ... };
+}
+
+public class Example {
+    public static void main(String[] args) {
+        Machine machine = new Compter();
+        
+        machine.occurError();	// 호출 가능
+        machine.turnOn();	// 호출 불가능
+        
+        Computer computer = (Computer) machine;	// 강제 타입 변환
+        
+        computer.occurError();	// 호출 가능
+        computer.turnOn();	// 호출 가능
+    }
+}
+```
+
+<br>
+
+### 객체 타입 확인 (instance of)
+
+강제 타입 변환은 구현 객체가 인터페이스 타입으로 변환되어 있는 상태에서 가능하다. 그렇기 때문에 강제 타입 변환을 하기 전에 해당 구현 객체가 인터페이스 타입으로 변환되어 있는지 확인할 필요가 있다. 그것을 위해 `instance of`를 사용할 수 있다.
+
+```java
+        Computer computer = new Computer();	// Computer 클래스의 객체
+        computer.format();	// 호출 가능
+        computer.turnOn();	// 호출 가능
+
+        Machine machine = new Computer();	// Machine 인터페이스의 구현 객체
+        machine.format();	// 오버라이딩 했으므로 호출 가능
+        // machine.turnOn(); // 인터페이스에 없는 추상클래스이므로 < 오류 발생! >
+
+        if (machine instanceof Computer) {	// Machine 인터페이스의 타입 machine이 Computer의 객체라면
+            Computer com = (Computer) machine;	// 강제 타입 변환
+            com.turnOn();	// 호출 가능
+        }
+```
+
+<br>
+
+## *인터페이스 상속*
+
+인터페이스는 다른 인터페이스를 상속할 수 있다. 인터페이스 끼리의 상속은 다중 상속이 가능하다.
+
+```java
+public interface 하위인터페이스 extends 상위인터페이스1, 상위인터페이스2 { ... }
+```
+
+하위 인터페이스를 구현하는 구현 클래스는 상위 인터페이스의 모든 추상 메소드에 대한 실체 메소드를 가지고 있어야 한다. 그렇기 때문에 하위 인터페이스의 타입의 객체는 상위 인터페이스 타입으로 변환이 가능하다.
+
+하위 인터페이스 타입으로 변환되면 상위 인터페이스와 하위 인터페이스에 선언된 모든 메소드를 사용할 수 있지만, 상위 인터페이스 타입으로 변환되면 상위 인터페이스에 선언된 메소드만 사용 할 수 있다.
+
+```java
+public interface FirstParent {
+    public abstract void firstMethod();
+}
+```
+
+```java
+public interface SecondParent {
+    public abstract void secondMethod();
+}
+```
+
+```java
+public interface Child extends FirstParent, SecondParent{
+    public abstract void childMethod();
+}
+```
+
+ 여기에 세 인터페이스가 있는데 `FirstParent` 인터페이스와 `SecondParent` 인터페이스가 있고 그 둘을 상속 받는 `Chlid` 인터페이스가 있다. 그렇다면 만약 `Child` 인터페이스를 구현하는 구현객체는 `Chlid` 인터페이스의 상위 인터페이스인 `FirstParent`와 `SecondParent`의 메소드까지 구현해야 한다.
+
+```java
+public class ImplementationChild implements Child {
+    @Override
+    public void firstMethod() {	// firstParent()의 구현 메소드
+        System.out.println("This is FirstParent method");
+    }
+
+    @Override
+    public void secondMethod() {	// secondParent()의 구현 메소드
+        System.out.println("This is SecondParent method");
+    }
+    
+    @Override
+    public void childMethod() {	// childMethod()의 구현 메소드
+        System.out.println("This is Child Method");
+    }
+}
+```
+
+
+
+```java
+public class HelloJava {
+    public static void main(String[] args) {
+        Child child = new ImplementationChild();
+        FirstParent firstParent = new ImplementationChild();
+        SecondParent secondParent = new ImplementationChild();
+
+        child.firstMethod();	// "This is FirstParent method"
+        child.secondMethod();	// "This is SecondParent method"
+        child.childMethod();	// "This is Child method"
+
+        firstParent.firstMethod();	 // "This is FirstParent method"
+        // firstParent.secondMethod(); < 호출 불가능 >
+        // firstParent.childMethod(); < 호출 불가능 >
+
+        // secondParent.firstMethod(); < 호출 불가능 >
+        secondParent.secondMethod();	// "This is SecondParent method"
+        // secondParent.childMethod(); < 호출 불가능 >
+    }
+}
+```
+
+<br>
+
+## *디폴트 메소드와 인터페이스 확장*
+
+디폴트 메소드를 사용하면 기존 인터페이스를 확장해서 새로운 기능을 추가할 수 있다. 인터페이스를 구현한 구현 객체는 인터페이스의 메소드를 사용하기 위해서 오버라이딩 해줘야 하는데, 디폴트 메소드는 오버라이딩을 해줄 필요 없이 바로 사용할 수 있어서 새로운 기능을 추가하기에 용이하다. 
+
+```java
+public interface Child {
+    public void childMethod();
+}
+```
+
+만약 인터페이스 `Child`에 다음과 같이 `childMethod()` 가 선언되어있다고 하자
+
+```java
+public class ImplementationChild implements Child {
+    @Override
+    public void childMethod() {
+        System.out.println("This is Child Method");
+    }
+}
+```
+
+그리고 `ImplementationChild` 클래스는 `Child` 인터페이스의 구현 클래스이다. `childMethod()`를 오버라이딩하였다. 그리고 이렇게 사용되던 와중에 만약 `Child` 인터페이스에 새로운 기능을 추가해야되는데 오버라이딩할 수가 없다면
+
+```java
+public interface Child {
+    public void childMethod();
+    public default void defMethod() {
+        System.out.println("This is default method");
+    } 
+}
+```
+
+위와 같이 `Child` 인터페이스에 `default` 메소드인 `defMethod()`를 선언하여 `Child` 인터페이스의 구현 클래스에 오버라이딩하지 않아도 객체에서 사용할 수 있게 메소드를 만든다.
+
+```java
+public class HelloJava {
+    public static void main(String[] args) {
+        ImplementationChild child = new ImplementationChild();
+        child.childMethod();	// "This is Child Method"
+        child.defMethod();	// "This is default method"
+    }
+}
+```
+
+디폴트 메소드도 오버라이딩 가능하다. 
+
+```java
+@Override
+public void defMethod() {
+    System.out.println("이것은 재정의한 defMethod 입니다.");
+}
+```
+
+<br>
+
+### 디폴트 메소드가 있는 인터페이스 상속
+
+만약 부모 인터페이스에 디폴트 메소드가 존재한다면 상속할 때 디폴트 메소드도 같이 상속 받는다. 이것을 활용하는 방법에는 다음과 같이
+
+1. **디폴트 메소드를 그대로 상속 받는다.**
+2. **디폴트 메소드를 오버라이딩해서 내용을 변경한다.**
+3. **디폴트 메소드를 추상(abstract)메소드로 재선언한다.**
+   - 이 때는 구현 객체에서 오버라이딩 해줘야 한다.
+
+<br>
+
+<br>
+
+<br>
+
+___
+
+출처 : 한빛미디어 < 이것이 자바다 > 신용권
+
+
+
+
+
 
 
 
