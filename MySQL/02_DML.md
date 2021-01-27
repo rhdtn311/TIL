@@ -296,6 +296,123 @@ SELECT RTRIM("   TRIM   ");
 +---------------------+
 ```
 
+<br>
+
+## *CAST 형변환*
+
+- MySQL은 비교나 검색을 수행할 때 데이터의 타입이 서로 다른 경우, 내부적으로 타입이 같아지도록 자동 변환하여 처리한다. 하지만 명시적으로 타입을 변환할 수 있도록 다음과 같은 연산자를 제공한다.
+  - `BINARY`
+  - `CAST()`
+  - `CONVERT()`
+
+- `CAST` 함수는 타입을 변경하는데 사용된다.
+
+```mysql
+CAST(expression AS type) 
+# =
+CONVERT(expression, type)
+CONVERT(expression USING transcoding_name)
+```
+
+- MySQL의 타입
+  - `BINARY` : 뒤에 오는 문자열을  바이너리 문자열로 변환한다.
+  - ` CHAR` : String
+  - `DATE` : 'YYYY-MM-DD'
+  - `DATETIME` : 'YYYY-MM-DD HH:MM:SS'
+  - `SIGNED {INTEGER}` : 부호 사용 가능 정수
+  - `TIME` : 'HH : MM : SS'
+  - `UNSIGNED {INTEGER}` : 부호 사용 불가능 정수
+
+```MYSQL
+SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2021-01-27 18:19:39 |
++---------------------+
+
+SELECT CAST(NOW() AS DATE);
++---------------------+
+| CAST(NOW() AS DATE) |
++---------------------+
+| 2021-01-27          |
++---------------------+
+
+SELECT CAST(NOW() AS UNSIGNED);
++-------------------------+
+| CAST(NOW() AS UNSIGNED) |
++-------------------------+
+|          20210127182052 |
++-------------------------+
+```
+
+<br>
+
+## *그룹함수*
+
+- 여러 값들의 집합에 대해서 동작하는 함수
+- `COUNT(expr)` : 널값이 아닌 카디널리티를 반환
+- `COUNT (DISTINCT expr, [expr...])` : 널 값이 아닌 중복되지 않은 카디널리티를 반환
+- `AVG(expr)` : `expr`의 평균값을 반환
+- `MIN(expr)` : `expr`의 최소값을 반환
+- `SUM(expr)` : `expr`의 합계를 반환
+- `GROUP_CONCAT(expr)` : 그룹에서 `concatenated`한 문자를 반환
+- `VARIANCE(expr)` : 분산
+- `STDDEV(expr)` : `expr`의 표준 편차를 반환
+
+```MYSQL
+SELECT NAME, MAX(SALARY) AS '최고 급여자'
+FROM EMPLOYEE;
++-------+-------------+
+| NAME  | 최고 급여자 |
++-------+-------------+
+| SMITH |     5000.00 |
++-------+-------------+
+
+SELECT COUNT(COMM)	# 널값 제외
+FROM EMPLOYEE;
++-------------+
+| COUNT(COMM) |
++-------------+
+|           4 |
++-------------+	
+```
+
+<br>
+
+### Group by
+
+- 일치하는 데이터별 그룹함수를 구하고자 할때 사용하는 구문
+
+```mysql
+SELECT 그룹함수
+FROM 테이블명
+GROUP BY 분류할 열;
+```
+
+```MYSQL
+SELECT JOB AS '직업', AVG(SALARY) AS '직업별 평균 급여'
+FROM EMPLOYEE
+GROUP BY JOB;
++-----------+------------------+
+| 직업      | 직업별 평균 급여 |
++-----------+------------------+
+| ANALYST   |      3000.000000 |
+| CLERK     |      1037.500000 |
+| MANAGER   |      2758.333333 |
+| PRESIDENT |      5000.000000 |
+| SALESMAN  |      1400.000000 |
++-----------+------------------+
+```
+
+
+
+
+
+
+
+<br>
+
 
 
 ### ORDER BY
@@ -447,7 +564,7 @@ ORDER BY BOSS ASC;
 +--------+------+
 | NAME   | BOSS |
 +--------+------+
-| ALLEN  | 7698 |
+| ALLEN  | 7698
 | WARD   | 7698 |
 | MARTIN | 7698 |
 | TURNER | 7698 |
@@ -470,7 +587,137 @@ ORDER BY NAME ASC;
 
 <br>
 
+## *INSERT*
+
+- 데이터의 입력을 위한 구문이다.
+
+```MYSQL
+INSERT INTO 테이블명(필드1, 필드2, 필드3, 필드4, ... )	# 필드명( ... )은 생략 가능하다.
+VALUES (필드1의 값, 필드2의 값, 필드3의 값, 필드4의 값, ... )
+# 단, 필드명을 생략했을 경우 모든 필드 값을 반드시 입력해야 한다.
+```
+
+``` MYSQL
+SELECT *
+FROM ROLE;
++---------+-----------------+
+| role_id | description     |
++---------+-----------------+
+|     100 | Developer       |
+|     101 | Researcher      |
+|     102 | Project manager |
++---------+-----------------+
+
+INSERT INTO ROLE(ROLE_ID,DESCRIPTION)
+VALUES (200,'CEO');
+
+SELECT *
+FROM ROLE;
++---------+-----------------+
+| role_id | description     |
++---------+-----------------+
+|     100 | Developer       |
+|     101 | Researcher      |
+|     102 | Project manager |
+|     200 | CEO             |
++---------+-----------------+
+```
+
 <br>
+
+## *UPDATE*
+
+- 테이블의 데이터를 수정할 수 있는 구문
+
+```MYSQL
+UPDATE 테이블명
+SET 필드1 = 필드1의 값, 필드2 = 필드2의 값, ... 
+WHERE 조건식
+```
+
+```MYSQL
+SELECT *
+FROM ROLE;
++---------+-----------------+
+| role_id | description     |
++---------+-----------------+
+|     100 | Developer       |
+|     101 | Researcher      |
+|     102 | Project manager |
+|     200 | CEO             |
+|     201 | NULL            |
++---------+-----------------+
+
+UPDATE ROLE
+SET DESCRIPTION = "Manager"
+WHERE ROLE_ID = 201;
++---------+-----------------+
+| role_id | description     |
++---------+-----------------+
+|     100 | Developer       |
+|     101 | Researcher      |
+|     102 | Project manager |
+|     200 | CEO             |
+|     201 | Manager         |
++---------+-----------------+
+```
+
+<br>
+
+## *DELETE*
+
+- 특정 행을 제거할 수 있다.
+
+```mysql
+DELETE
+FROM 테이블명
+WHERE 조건식;
+```
+
+```MYSQL
+DELETE
+FROM ROLE
+WHERE ROLE_ID = 201;
+
+SELECT *
+FROM ROLE;
++---------+-----------------+
+| role_id | description     |
++---------+-----------------+
+|     100 | Developer       |
+|     101 | Researcher      |
+|     102 | Project manager |
+|     200 | CEO             |
++---------+-----------------+
+```
+
+<br>
+
+<br>
+
+<br>
+
+___
+
+출처 : https://www.boostcourse.org/web326/joinLectures/28762
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
